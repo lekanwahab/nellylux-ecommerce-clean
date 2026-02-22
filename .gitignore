@@ -1,0 +1,39 @@
+# ======================
+# Django / Python
+# ======================
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+db.sqlite3
+.env
+.env.*
+venv/
+env/
+.venv/
+
+# Django media (uploaded images)
+media/
+
+# ======================
+# Node / Next.js
+# ======================
+node_modules/
+.next/
+out/
+.env.local
+
+# ======================
+# Build / cache
+# ======================
+dist/
+build/
+.cache/
+
+# ======================
+# OS / Editor
+# ======================
+.DS_Store
+.idea/
+.vscode/
+

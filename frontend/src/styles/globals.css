@@ -1,0 +1,307 @@
+/* ==============================
+   ROSE GOLD LUXURY THEME
+   Brand: Nelly Lux
+   ============================== */
+
+/* RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ROOT COLORS */
+:root {
+  --bg-main: #fff6f8;          /* soft blush */
+  --bg-card: #ffffff;
+  --border-soft: #f0dde2;
+
+  --text-main: #2b2b2b;
+  --text-muted: #7a7a7a;
+
+  --rose-gold: #c9a24d;
+  --rose-gold-dark: #b08c3c;
+  --rose-glow: rgba(201, 162, 77, 0.25);
+
+  --radius: 20px;
+}
+
+/* BODY */
+body {
+  font-family: "Playfair Display", "Georgia", serif;
+  background: linear-gradient(180deg, #fff6f8 0%, #ffffff 100%);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+/* LINKS */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 28px;
+}
+
+/* NAVBAR */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 246, 248, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* CARDS */
+.card {
+  background: rgba(255,255,255,0.92);
+  } 
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+}
+
+/* BUTTONS */
+.btn {
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, var(--rose-gold), var(--rose-gold-dark));
+  color: #fff;
+  box-shadow: 0 10px 30px var(--rose-glow);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 45px var(--rose-glow);
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--rose-gold-dark);
+  border: 1px solid var(--rose-gold);
+}
+
+.btnGhost:hover {
+  background: rgba(201, 162, 77, 0.1);
+}
+
+/* BADGES */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: linear-gradient(135deg, #f6e7ec, #fff);
+  color: var(--rose-gold-dark);
+  border: 1px solid var(--border-soft);
+}
+
+/* INPUTS */
+.input,
+select,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: #fff;
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--rose-gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 77, 0.15);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 900px) {
+  .grid2 { grid-template-columns: repeat(2, 1fr); }
+  .grid3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* TEXT */
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+}
+
+.small {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* IMAGES */
+img {
+  max-width: 100%;
+  border-radius: 16px;
+  display: block;
+}
+
+/* HR */
+hr {
+  border: none;
+  border-top: 1px solid var(--border-soft);
+  margin: 20px 0;
+}
+
+/* WHATSAPP FLOAT */
+a[href*="wa.me"] {
+  background: linear-gradient(135deg, var(--rose-gold), var(--rose-gold-dark));
+  color: #fff !important;
+  box-shadow: 0 15px 40px var(--rose-glow);
+}
+
+/* ===== WIG WATERMARK SLIDESHOW (SHOP + CART PAGES) ===== */
+.watermarkBg{
+  position: relative;
+}
+
+/* wig1 */
+.watermarkBg::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: url("/bg/wig1.jpg") center/cover no-repeat;
+  opacity: 0;
+  animation: fadeBg 16s infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* wig2 */
+.watermarkBg::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: url("/bg/wig2.jpg") center/cover no-repeat;
+  opacity: 0;
+  animation: fadeBg 16s infinite;
+  animation-delay: 8s;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* make it a WATERMARK (soft + readable) */
+@keyframes fadeBg{
+  0%   { opacity: 0; }
+  15%  { opacity: 0.08; }
+  50%  { opacity: 0.08; }
+  65%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ==============================
+   TOASTS
+   ============================== */
+.toastWrap{
+  position: fixed;
+  right: 14px;
+  top: 74px;
+  z-index: 9999;
+  display: grid;
+  gap: 10px;
+  width: min(420px, calc(100vw - 28px));
+}
+
+.toast{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.20);
+  color: var(--text-main);
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  transform: translateY(-6px);
+  opacity: 0;
+  animation: toastIn 220ms ease forwards;
+}
+
+.toastDot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5a92, #a756ff);
+  box-shadow: 0 0 0 6px rgba(255,90,146,0.12);
+  flex: 0 0 auto;
+}
+
+@keyframes toastIn{
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 520px){
+  .toastWrap{ right: 10px; top: 70px; }
+  .toast{ border-radius: 16px; }
+}
+
+@media (max-width: 900px) {
+  .grid3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .container { padding: 18px; }
+  .grid3 { grid-template-columns: 1fr; }
+  .nav .container { padding: 16px; }
+  .badge { padding: 6px 12px; }
+}
+
+
+/* ==============================
+   AMAZON-LIKE PAYMENT OPTION UI
+   ============================== */
+.payOption{
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.payOption:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.12);
+  border-color: rgba(201, 162, 77, 0.35);
+}
+
+.payOption input{
+  margin-top: 3px;
+  transform: scale(1.1);
+}
+
