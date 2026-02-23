@@ -6,3 +6,5 @@ gunicorn
 dj-database-url
 python-dotenv
 psycopg[binary]
+boto3 
+django-storages
