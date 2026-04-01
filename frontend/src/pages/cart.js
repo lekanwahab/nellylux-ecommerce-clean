@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-const CART_KEY = "nelly_lux_cart"; // localStorage key
+const CART_KEY = "nelly_lux_cart";
 
 export default function Cart() {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
+  const s3BucketUrl = "https://nellylux-media-prod.s3.us-east-2.amazonaws.com/products";
 
   const [items, setItems] = useState([]);
   const [customer, setCustomer] = useState({
@@ -16,11 +17,21 @@ export default function Cart() {
     note: "",
   });
 
-  // Load cart from localStorage on mount and whenever cart changes
+  // Load cart from localStorage
   const loadCart = () => {
     try {
       const raw = localStorage.getItem(CART_KEY);
-      setItems(raw ? JSON.parse(raw) : []);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        const normalized = parsed.map(i => ({
+          ...i,
+          qty: i.qty || 1,
+          image_url: i.image_url ? i.image_url : `${s3BucketUrl}/${i.slug}.jpg`,
+        }));
+        setItems(normalized);
+      } else {
+        setItems([]);
+      }
     } catch {
       setItems([]);
     }
@@ -35,17 +46,17 @@ export default function Cart() {
   const saveCart = (nextItems) => {
     localStorage.setItem(CART_KEY, JSON.stringify(nextItems));
     setItems(nextItems);
-    window.dispatchEvent(new Event("cart:changed")); // notify all components
+    window.dispatchEvent(new Event("cart:changed"));
   };
 
   const onUpdate = (slug, qty) => {
-    const next = items.map((i) =>
+    const next = items.map(i =>
       i.slug === slug ? { ...i, qty: Math.max(1, Number(qty || 1)) } : i
     );
     saveCart(next);
   };
 
-  const onRemove = (slug) => saveCart(items.filter((i) => i.slug !== slug));
+  const onRemove = (slug) => saveCart(items.filter(i => i.slug !== slug));
   const onClear = () => saveCart([]);
 
   const total = useMemo(() => {
@@ -82,7 +93,6 @@ export default function Cart() {
   return (
     <div className="watermarkBg">
       <div className="container">
-        {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
           <h1 style={{ marginTop: 6, marginBottom: 6 }}>Cart</h1>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -102,12 +112,9 @@ export default function Cart() {
 
             {items.map((i) => (
               <div key={i.slug} style={{ display: "flex", gap: 12, padding: "12px 0", alignItems: "center" }}>
-                {/* Image */}
                 <div style={{ width: 84, height: 64, borderRadius: 14, overflow: "hidden", background: "rgba(255,255,255,0.06)", flex: "0 0 auto" }}>
                   {i.image_url && <img src={i.image_url} alt={i.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                 </div>
-
-                {/* Item Info */}
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 900 }}>{i.name}</div>
                   <div className="small">{currency}{Number(i.price || 0).toFixed(2)} each</div>
@@ -116,7 +123,6 @@ export default function Cart() {
                     <button className="btn btnGhost" onClick={() => onRemove(i.slug)}>Remove</button>
                   </div>
                 </div>
-
                 <div style={{ fontWeight: 900 }}>{currency}{(Number(i.price || 0) * Number(i.qty || 1)).toFixed(2)}</div>
               </div>
             ))}
@@ -135,18 +141,14 @@ export default function Cart() {
               <input className="input" placeholder="Full name" value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} />
               <input className="input" placeholder="Phone number" value={customer.phone} onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} />
               <input className="input" placeholder="City / State" value={customer.location} onChange={(e) => setCustomer({ ...customer, location: e.target.value })} />
-
               <select className="input" value={customer.delivery} onChange={(e) => setCustomer({ ...customer, delivery: e.target.value })}>
                 <option>Delivery</option>
                 <option>Pickup</option>
               </select>
-
-              <textarea className="input" rows="4" placeholder="Optional note (color, lace type, preferred time...)" value={customer.note} onChange={(e) => setCustomer({ ...customer, note: e.target.value })} />
-
+              <textarea className="input" rows="4" placeholder="Optional note" value={customer.note} onChange={(e) => setCustomer({ ...customer, note: e.target.value })} />
               <button className="btn btnPrimary" onClick={onCheckout} disabled={items.length === 0}>
                 Checkout via WhatsApp
               </button>
-
               <div className="small">
                 Clicking checkout opens WhatsApp with your order details ready to send to the seller.
               </div>
