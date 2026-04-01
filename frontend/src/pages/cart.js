@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-const CART_KEY = "nelly_lux_cart"; // your new brand cart key
+const CART_KEY = "nelly_lux_cart"; // localStorage key
 
 export default function Cart() {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
@@ -16,20 +16,26 @@ export default function Cart() {
     note: "",
   });
 
-  // Load cart once
-  useEffect(() => {
+  // Load cart from localStorage on mount and whenever cart changes
+  const loadCart = () => {
     try {
       const raw = localStorage.getItem(CART_KEY);
       setItems(raw ? JSON.parse(raw) : []);
     } catch {
       setItems([]);
     }
+  };
+
+  useEffect(() => {
+    loadCart();
+    window.addEventListener("cart:changed", loadCart);
+    return () => window.removeEventListener("cart:changed", loadCart);
   }, []);
 
   const saveCart = (nextItems) => {
     localStorage.setItem(CART_KEY, JSON.stringify(nextItems));
     setItems(nextItems);
-    window.dispatchEvent(new Event("cart:changed"));
+    window.dispatchEvent(new Event("cart:changed")); // notify all components
   };
 
   const onUpdate = (slug, qty) => {
@@ -76,6 +82,7 @@ export default function Cart() {
   return (
     <div className="watermarkBg">
       <div className="container">
+        {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
           <h1 style={{ marginTop: 6, marginBottom: 6 }}>Cart</h1>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -95,14 +102,15 @@ export default function Cart() {
 
             {items.map((i) => (
               <div key={i.slug} style={{ display: "flex", gap: 12, padding: "12px 0", alignItems: "center" }}>
+                {/* Image */}
                 <div style={{ width: 84, height: 64, borderRadius: 14, overflow: "hidden", background: "rgba(255,255,255,0.06)", flex: "0 0 auto" }}>
                   {i.image_url && <img src={i.image_url} alt={i.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                 </div>
 
+                {/* Item Info */}
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 900 }}>{i.name}</div>
                   <div className="small">{currency}{Number(i.price || 0).toFixed(2)} each</div>
-
                   <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
                     <input className="input" type="number" min="1" value={i.qty} onChange={(e) => onUpdate(i.slug, Number(e.target.value || 1))} style={{ width: 110 }} />
                     <button className="btn btnGhost" onClick={() => onRemove(i.slug)}>Remove</button>
@@ -114,7 +122,6 @@ export default function Cart() {
             ))}
 
             <hr />
-
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
               <div className="small">Total</div>
               <div style={{ fontWeight: 900, fontSize: 20 }}>{currency}{total.toFixed(2)}</div>
@@ -124,7 +131,6 @@ export default function Cart() {
           {/* RIGHT: CUSTOMER INFO */}
           <div className="card" style={{ padding: 16 }}>
             <h2 style={{ marginTop: 0 }}>Customer Info</h2>
-
             <div style={{ display: "grid", gap: 10 }}>
               <input className="input" placeholder="Full name" value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} />
               <input className="input" placeholder="Phone number" value={customer.phone} onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} />
