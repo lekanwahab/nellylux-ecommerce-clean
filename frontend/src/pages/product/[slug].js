@@ -4,8 +4,7 @@ import Link from "next/link";
 import { fetchProduct } from "@/lib/api";
 import { useToast } from "@/components/ToastProvider";
 
-
-const CART_KEY = "reeky_lux_cart";
+const CART_KEY = "NELLY_LUX_cart";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function ProductDetail() {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  const addToCart = () => { 
+  const addToCart = () => {
     if (!p) return;
 
     const existing = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
@@ -51,7 +50,7 @@ export default function ProductDetail() {
     router.push("/cart");
   };
 
-  // ✅ REAL loading state
+  // Loading state
   if (loading) {
     return (
       <div className="watermarkBg">
@@ -72,7 +71,7 @@ export default function ProductDetail() {
     );
   }
 
-  // ✅ Not found / fetch failed
+  // Product not found
   if (!p) {
     return (
       <div className="watermarkBg">
@@ -95,7 +94,6 @@ export default function ProductDetail() {
 
   const price = Number(p.price || 0);
   const compare = Number(p.compare_at_price || 0);
-
 
   return (
     <div className="watermarkBg">
@@ -165,16 +163,13 @@ export default function ProductDetail() {
               />
 
               <button
-	  className="btn btnPrimary"
-	  onClick={addToCart}
-	  disabled={p.in_stock === false}
-	  style={{ opacity: p.in_stock === false ? 0.6 : 1 }}
-	  > 
-
-	  {p.in_stock === false ? "Out of Stock" : "Add to Cart"}
-	  </button>
-
-
+                className="btn btnPrimary"
+                onClick={addToCart}
+                disabled={p.in_stock === false}
+                style={{ opacity: p.in_stock === false ? 0.6 : 1 }}
+              >
+                {p.in_stock === false ? "Out of Stock" : "Add to Cart"}
+              </button>
 
               <Link href="/cart">
                 <button className="btn btnGhost">Go to Cart</button>
@@ -186,4 +181,3 @@ export default function ProductDetail() {
     </div>
   );
 }
-
