@@ -27,6 +27,7 @@ jobs:
 
           docker build -t olamilekan22/nellylux_frontend:dev ./frontend
           docker push olamilekan22/nellylux_frontend:dev
+          # ..this part just tp trigger"
 
   main:
     if: github.ref == 'refs/heads/main'
