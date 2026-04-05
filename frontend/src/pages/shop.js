@@ -8,20 +8,45 @@ export default function Shop() {
   const [category, setCategory] = useState("");
 
   const load = async () => {
-    const data = await fetchProducts({ search, category });
-    setItems(data);
+    try {
+      const data = await fetchProducts({ search, category });
+
+      // 🔥 FIX: handle different API shapes safely
+      if (Array.isArray(data)) {
+        setItems(data);
+      } else if (data && Array.isArray(data.results)) {
+        setItems(data.results);
+      } else {
+        setItems([]);
+      }
+    } catch (e) {
+      console.error("Fetch error:", e);
+      setItems([]);
+    }
   };
 
-  useEffect(() => { load().catch(() => setItems([])); }, []);
   useEffect(() => {
-    const t = setTimeout(() => load().catch(() => setItems([])), 350);
+    load();
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => load(), 350);
     return () => clearTimeout(t);
   }, [search, category]);
 
   return (
     <div className="watermarkBg">
       <div className="container">
-        <div className="card" style={{ padding: 18, display:"flex", gap: 12, flexWrap:"wrap", alignItems:"center" }}>
+        <div
+          className="card"
+          style={{
+            padding: 18,
+            display: "flex",
+            gap: 12,
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           <input
             className="input"
             placeholder="Search wigs, bundles..."
@@ -43,10 +68,13 @@ export default function Shop() {
         </div>
 
         <div className="grid grid3" style={{ marginTop: 14 }}>
-          {items.map((p) => <ProductCard key={p.id} p={p} />)}
+          {Array.isArray(items) && items.length > 0 ? (
+            items.map((p) => <ProductCard key={p.id} p={p} />)
+          ) : (
+            <div className="small">No products found.</div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
