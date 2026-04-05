@@ -8,7 +8,7 @@ on:
 
 jobs:
   dev:
-    if: github.ref == 'dev'
+    if: github.ref_name == 'dev'
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
           # ..this part just tp trigger"
 
   main:
-    if: github.ref == 'main'
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     environment: production
 
