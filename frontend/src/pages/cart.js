@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-const CART_KEY = "reeky_lux_cart";
+const CART_KEY = "NELLY_LUX_cart";
 
 export default function Cart() {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
