@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/lib/api";
@@ -10,9 +11,12 @@ export default function Shop() {
 
   const load = async () => {
     try {
+      console.log("FETCH RUNNING"); // ✅ check if function runs
+
       const data = await fetchProducts({ search, category });
 
-      // 🔥 FIX: handle different API shapes safely
+      console.log("DATA:", data); // ✅ check API response
+
       if (Array.isArray(data)) {
         setItems(data);
       } else if (data && Array.isArray(data.results)) {
