@@ -1,6 +1,5 @@
 // Base URL for Django backend
-export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE || "https://nellyhairbackend-production-60a9.up.railway.app";
+export const API_BASE = "https://nellyhairbackend-production-60a9.up.railway.app";
 
 /**
  * Fetch product list
