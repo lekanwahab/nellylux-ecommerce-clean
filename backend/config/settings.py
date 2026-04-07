@@ -52,12 +52,6 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-<<<<<<< HEAD
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
-    "http://localhost:3005",
-=======
->>>>>>> cccda3a (redeployment)
     "https://nellyluxfrontend-production.up.railway.app",
 ]
 
