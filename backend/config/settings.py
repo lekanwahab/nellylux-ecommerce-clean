@@ -1,8 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-from dotenv import load_dotenv
-load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,9 +52,12 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+<<<<<<< HEAD
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "http://localhost:3005",
+=======
+>>>>>>> cccda3a (redeployment)
     "https://nellyluxfrontend-production.up.railway.app",
 ]
 
@@ -66,12 +67,9 @@ CORS_ALLOW_CREDENTIALS = True
 # CSRF SETTINGS (IMPORTANT)
 # =========================
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.trycloudflare.com",
-    "https://*.ngrok-free.dev",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
+    "https://nellyluxfrontend-production.up.railway.app",
 ]
 
 # 🔑 REQUIRED for tunnels / reverse proxies
@@ -129,14 +127,6 @@ USE_I18N = True
 USE_TZ = True
 
 #=======================================
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
@@ -144,6 +134,7 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
+AWS_S3_SIGNATURE_VERSION = None
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
