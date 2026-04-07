@@ -1,7 +1,7 @@
 export function openWhatsAppCheckout({ items, customer }) {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE;
   const brand = process.env.NEXT_PUBLIC_BRAND || "Nelly Lux";
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "#";
 
   const lines = [];
   lines.push(`Hello ${brand}, I want to place an order:`);

@@ -22,7 +22,7 @@ export default function ProductDetail() {
 
     setLoading(true);
     fetchProduct(slug)
-      .then((data) => setP(data))
+      .then((data) => setP(data.results || data))
       .catch(() => setP(null))
       .finally(() => setLoading(false));
   }, [slug]);

@@ -1,5 +1,10 @@
 // Base URL for Django backend
+<<<<<<< HEAD
 export const API_BASE = "https://nellyhairbackend-production-60a9.up.railway.app";
+=======
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://nellyhairbackend-production-60a9.up.railway.app";
+>>>>>>> f304cff (redeployment)
 
 /**
  * Fetch product list
@@ -17,7 +22,7 @@ export async function fetchProducts({
   if (featured) params.append("featured", "true");
 
   const query = params.toString();
-  const url = `${API_BASE}/api/products/${query ? `?${query}` : ""}`;
+  const url = `${API_BASE}/api/products${query ? `?${query}` : ""}`;
 
   const res = await fetch(url);
 
