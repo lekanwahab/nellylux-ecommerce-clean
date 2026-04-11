@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function ProductCard({ p }) {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "₦";
   const out = p.in_stock === false;
 
   return (
@@ -10,7 +10,7 @@ export default function ProductCard({ p }) {
       style={{ padding: 14, overflow: "hidden", opacity: out ? 0.78 : 1 }}
     >
       <Link
-        href={out ? "#" : `/product/${p.slug}`}
+        href={out ? "₦" : `/product/${p.slug}`}
         onClick={(e) => {
           if (out) e.preventDefault();
         }}
@@ -76,7 +76,7 @@ export default function ProductCard({ p }) {
           <div style={{ fontWeight: 800 }}>{p.name}</div>
           <div style={{ fontWeight: 900 }}>
             {currency}
-            {Number(p.price || 0).toFixed(2)}
+	  {Number(p.price || 0).toFixed(2)}
           </div>
         </div>
 

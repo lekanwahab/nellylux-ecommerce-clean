@@ -4,7 +4,7 @@ import Link from "next/link";
 const CART_KEY = "NELLY_LUX_cart";
 
 export default function Cart() {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "$";
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "₦";
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
 
   const [items, setItems] = useState([]);
@@ -58,7 +58,7 @@ export default function Cart() {
     if (items.length === 0) return alert("Your cart is empty.");
 
     const lines = [];
-    lines.push("Reeky Lux Order");
+    lines.push("Nelly Lux Order");
     lines.push("----------------------------");
     lines.push(`Name: ${customer.name || "-"}`);
     lines.push(`Phone: ${customer.phone || "-"}`);

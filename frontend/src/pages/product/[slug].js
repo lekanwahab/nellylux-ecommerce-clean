@@ -14,7 +14,7 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "#";
+  const currency = "₦";
   const { showToast } = useToast();
 
   useEffect(() => {
